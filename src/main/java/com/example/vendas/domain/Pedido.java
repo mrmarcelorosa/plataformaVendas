@@ -1,0 +1,45 @@
+package com.example.vendas.domain;
+
+import lombok.*;
+import org.hibernate.annotations.Cascade;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@Entity
+public class Pedido implements Serializable {
+
+
+    private static final long serialVersionId = 1l;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column
+    private Date instante;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
+    private Pagamento pagamento;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
+    @ManyToOne
+    @JoinColumn(name = "endereco_de_entrega_id")
+    private Endereco enderecoDeEntrega;
+
+    public Pedido(Integer id, Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
+        this.id = id;
+        this.instante = instante;
+        this.cliente = cliente;
+        this.enderecoDeEntrega = enderecoDeEntrega;
+    }
+}
