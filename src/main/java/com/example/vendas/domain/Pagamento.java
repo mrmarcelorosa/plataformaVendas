@@ -1,6 +1,7 @@
 package com.example.vendas.domain;
 
 import com.example.vendas.domain.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -37,6 +38,7 @@ public abstract class Pagamento implements Serializable {
         this.estado = estado.getCod();
     }
 
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "pedido_id")
     @MapsId

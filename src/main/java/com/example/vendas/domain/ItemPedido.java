@@ -1,5 +1,6 @@
 package com.example.vendas.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.EmbeddedId;
@@ -16,6 +17,7 @@ public class ItemPedido implements Serializable {
 
     private static final long serialVersionId = 1l;
 
+    @JsonIgnore
     @EmbeddedId
     private ItemPedidoPK id = new ItemPedidoPK();
 
@@ -32,10 +34,12 @@ public class ItemPedido implements Serializable {
         this.preco = preco;
     }
 
+
     public Produto getProduto(){
         return id.getProduto();
     }
 
+    @JsonIgnore
     public Pedido getPedido(){
         return id.getPedido();
     }
