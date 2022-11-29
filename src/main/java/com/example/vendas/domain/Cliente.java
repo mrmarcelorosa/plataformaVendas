@@ -1,6 +1,7 @@
 package com.example.vendas.domain;
 
 import com.example.vendas.domain.enums.TipoCliente;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,6 +31,7 @@ public class Cliente implements Serializable {
     @Column
     private Integer tipo;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "cliente")
     private List<Endereco> enderecos = new ArrayList<>();
 
