@@ -1,6 +1,6 @@
 package com.example.vendas.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,7 +20,7 @@ public class Estado implements Serializable {
     @Column
     private String nome;
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "estado")
     private List<Cidade> cidades = new ArrayList<>();
     public Estado(Integer id, String nome) {
