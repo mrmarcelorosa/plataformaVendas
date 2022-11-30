@@ -4,7 +4,9 @@ import com.example.vendas.domain.Categoria;
 import com.example.vendas.dto.CategoriaDto;
 import com.example.vendas.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -52,4 +54,14 @@ public class CategoriaResource {
     public ResponseEntity<List<CategoriaDto>> findAll(){
         return ResponseEntity.ok().body(service.findAll());
     }
+
+    @RequestMapping(value = "/page",method = RequestMethod.GET)
+    public ResponseEntity<Page<CategoriaDto>> findPage(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+            @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+            @RequestParam(value = "direction", defaultValue = "ASC") String direction){
+        return ResponseEntity.ok().body(service.findPage(page,linesPerPage,orderBy,direction));
+    }
+
 }

@@ -7,6 +7,9 @@ import com.example.vendas.services.exceptions.DataIntegrityViolationCustomExcept
 import com.example.vendas.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,5 +47,10 @@ public class CategoriaService {
 
     public List<CategoriaDto> findAll(){
         return repository.findAll().stream().map(obj -> new CategoriaDto(obj)).collect(Collectors.toList());
+    }
+
+    public Page<CategoriaDto> findPage(Integer page, Integer linesPage, String orderBy, String direction){
+        PageRequest pageRequest = PageRequest.of(page, linesPage, Sort.Direction.valueOf(direction), orderBy);
+        return repository.findAll(pageRequest).map(obj -> new CategoriaDto(obj));
     }
 }
