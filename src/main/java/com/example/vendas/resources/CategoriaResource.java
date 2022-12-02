@@ -5,17 +5,18 @@ import com.example.vendas.dto.CategoriaDto;
 import com.example.vendas.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/categorias")
+@Validated
 public class CategoriaResource {
 
     @Autowired
@@ -27,8 +28,8 @@ public class CategoriaResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert (@RequestBody Categoria categoria){
-        categoria = service.insert(categoria);
+    public ResponseEntity<Void> insert (@Valid @RequestBody CategoriaDto categoriaDto){
+        Categoria categoria = service.insert(service.fromDto(categoriaDto));
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequestUri()
                 .path("/{id}")
@@ -38,9 +39,9 @@ public class CategoriaResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody Categoria categoria, @PathVariable Integer id){
-        categoria.setId(id);
-        categoria = service.update(categoria);
+    public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDto categoriaDto, @PathVariable Integer id){
+        categoriaDto.setId(id);
+        Categoria categoria = service.update(service.fromDto(categoriaDto));
         return ResponseEntity.noContent().build();
     }
 

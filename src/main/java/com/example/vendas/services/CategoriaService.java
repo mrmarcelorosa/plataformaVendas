@@ -53,4 +53,8 @@ public class CategoriaService {
         PageRequest pageRequest = PageRequest.of(page, linesPage, Sort.Direction.valueOf(direction), orderBy);
         return repository.findAll(pageRequest).map(obj -> new CategoriaDto(obj));
     }
+
+    public Categoria fromDto(CategoriaDto dto){
+        return new Categoria(dto.getId(), dto.getNome());
+    }
 }
