@@ -1,6 +1,7 @@
 package com.example.vendas.services;
 
 import com.example.vendas.domain.Categoria;
+import com.example.vendas.domain.Cliente;
 import com.example.vendas.dto.CategoriaDto;
 import com.example.vendas.repositories.CategoriaRepository;
 import com.example.vendas.services.exceptions.DataIntegrityViolationCustomException;
@@ -32,7 +33,8 @@ public class CategoriaService {
     }
 
     public Categoria update(Categoria categoria){
-        findById(categoria.getId());
+        Categoria categoriaDb = findById(categoria.getId());
+        updateData(categoriaDb, categoria);
         return repository.save(categoria);
     }
 
@@ -56,5 +58,9 @@ public class CategoriaService {
 
     public Categoria fromDto(CategoriaDto dto){
         return new Categoria(dto.getId(), dto.getNome());
+    }
+
+    private void updateData(Categoria categoriaDb, Categoria categoria){
+        categoriaDb.setNome(categoria.getNome());
     }
 }
